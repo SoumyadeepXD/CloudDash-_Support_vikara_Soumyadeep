@@ -1,0 +1,17 @@
+{
+  "id": "KB-005",
+  "title": "Alerts not firing \u2014 step-by-step diagnosis",
+  "category": "Troubleshooting",
+  "tags": [
+    "alerts",
+    "notifications",
+    "debug"
+  ],
+  "content": "If your alerts are not firing, follow these steps. 1. Check the alert threshold configuration: Ensure the metric actually crossed the threshold for the required duration (e.g., CPU > 80% for 5 minutes). 2. Check the integration status: Go to Integrations > Webhooks/Slack/Email and verify the endpoints are active and returning 200 OK. 3. Check the alert history logs: Navigate to Logs > Alerts to see if the alert was suppressed due to a maintenance window or rate limiting. 4. Verify your cloud provider's metrics are flowing into CloudDash (check the Data Sources page). If metrics are stale, re-authenticate your IAM role. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Starter",
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

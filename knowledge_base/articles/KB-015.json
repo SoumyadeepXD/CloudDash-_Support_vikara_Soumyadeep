@@ -1,0 +1,16 @@
+{
+  "id": "KB-015",
+  "title": "Webhook configuration \u2014 events, payloads, retry logic",
+  "category": "API Documentation",
+  "tags": [
+    "webhooks",
+    "api",
+    "events"
+  ],
+  "content": "Webhooks allow you to receive real-time HTTP POST requests when specific events occur in CloudDash, such as `alert.triggered` or `cost.anomaly_detected`. The payload is in JSON format and includes the event ID, timestamp, and resource details. If your endpoint returns a non-2xx status code, CloudDash will retry delivering the webhook up to 5 times over 24 hours (with exponential backoff). You can verify the payload authenticity using the `X-CloudDash-Signature` header, which is an HMAC-SHA256 hash of the request body signed with your webhook secret. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "KB-007",
+  "title": "AWS CloudWatch integration failing",
+  "category": "Troubleshooting",
+  "tags": [
+    "aws",
+    "cloudwatch",
+    "integration"
+  ],
+  "content": "If your AWS CloudWatch integration fails, it is usually an IAM permission issue. Ensure the IAM Role assigned to CloudDash has the 'CloudWatchReadOnlyAccess' policy attached. The role must also have a Trust Relationship allowing 'arn:aws:iam::123456789012:role/CloudDashCrossAccountRole' to assume it. Error 403 AccessDenied means the role is incorrect. Error 429 TooManyRequests means you are hitting AWS API limits; CloudDash will automatically retry with exponential backoff, but you may need to request a quota increase from AWS if you have thousands of resources. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Starter",
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "KB-013",
+  "title": "Payment methods accepted and how to update",
+  "category": "Billing & Pricing",
+  "tags": [
+    "payment",
+    "credit card",
+    "billing"
+  ],
+  "content": "CloudDash accepts all major credit cards (Visa, Mastercard, American Express, Discover) via our secure Stripe integration. We also accept PayPal for all plans. For Enterprise customers billed annually, we support manual invoicing via wire transfer or ACH. To update your payment method, go to Billing > Payment Methods, click 'Add New Card', and set it as the default. We recommend keeping a backup payment method on file to prevent service interruptions if your primary card expires or declines. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Starter",
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

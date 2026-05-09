@@ -1,0 +1,17 @@
+{
+  "id": "KB-020",
+  "title": "CloudDash feature roadmap Q2-Q3 2026",
+  "category": "General",
+  "tags": [
+    "roadmap",
+    "features",
+    "updates"
+  ],
+  "content": "Our product roadmap for Q2-Q3 2026 includes several exciting updates. 1. AI-Powered Anomaly Detection: Automatically spot unusual traffic patterns without manual thresholds (Expected Q2). 2. Kubernetes Native Monitoring: Deep dive into pod and node health directly within the dashboard (Expected Q2). 3. Custom Metric Ingestion via OTLP: Native OpenTelemetry support for application metrics (Expected Q3). 4. Automated Cost Remediation: 1-click action to pause idle EC2 instances (Expected Q3). 5. Expanded SSO Providers: Adding native integrations for Ping Identity and OneLogin (Expected Q3). This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Starter",
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

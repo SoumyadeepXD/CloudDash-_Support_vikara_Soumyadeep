@@ -1,0 +1,15 @@
+{
+  "id": "KB-009",
+  "title": "SSO setup with Okta/Azure AD",
+  "category": "Troubleshooting",
+  "tags": [
+    "sso",
+    "okta",
+    "azure"
+  ],
+  "content": "Single Sign-On (SSO) is available on the Enterprise plan. To configure Okta or Azure AD: 1. Go to Settings > Security > SSO Setup. 2. Copy the ACS URL and Entity ID provided by CloudDash. 3. In your Identity Provider (IdP), create a new SAML 2.0 application and paste these URLs. 4. Map the email attribute to 'nameID'. 5. Download the IdP metadata XML and upload it back to CloudDash. 6. Click 'Test Connection'. If it fails with 'Invalid Signature', ensure the x.509 certificate matches. Note: Just-In-Time (JIT) provisioning is enabled by default. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

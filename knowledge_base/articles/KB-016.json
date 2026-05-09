@@ -1,0 +1,16 @@
+{
+  "id": "KB-016",
+  "title": "SDK quickstart guide",
+  "category": "API Documentation",
+  "tags": [
+    "sdk",
+    "python",
+    "node"
+  ],
+  "content": "CloudDash provides official SDKs for Python and Node.js. To install the Python SDK, run `pip install clouddash-sdk`. To install the Node.js SDK, run `npm install clouddash-node`. Both SDKs automatically handle authentication, pagination, and rate limit retries. Example Python usage: `import clouddash; client = clouddash.Client(api_key='YOUR_KEY'); alerts = client.alerts.list(status='active')`. Detailed SDK documentation and advanced examples for metric ingestion and custom dashboard creation are available on our GitHub repository. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

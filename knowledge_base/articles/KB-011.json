@@ -1,0 +1,17 @@
+{
+  "id": "KB-011",
+  "title": "Invoice explanation \u2014 what each line item means",
+  "category": "Billing & Pricing",
+  "tags": [
+    "invoice",
+    "billing",
+    "charges"
+  ],
+  "content": "Your monthly invoice contains several line items. 'Base Subscription' covers the flat fee for your chosen plan (Starter, Pro, or Enterprise). 'Resource Overages' applies if you monitored more resources than your plan's limit (billed at $1 per extra resource). 'SMS Alert Credits' are charges for SMS notifications beyond the free tier (100 included on Pro, $0.05 per SMS thereafter). 'Data Retention Add-on' appears if you purchased extended log storage. All invoices are finalized on the 1st of the month and charged to your default payment method. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Starter",
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

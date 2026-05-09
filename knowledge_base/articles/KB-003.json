@@ -1,0 +1,16 @@
+{
+  "id": "KB-003",
+  "title": "How to invite team members and manage roles",
+  "category": "FAQs",
+  "tags": [
+    "team",
+    "rbac",
+    "users"
+  ],
+  "content": "You can invite new team members from the Team Settings page. Click 'Invite Member', enter their email address, and select a role (Viewer, Editor, Admin, or Billing Manager). Viewers can only see dashboards; Editors can create and modify alerts; Admins have full access including user management; Billing Managers only see cost data and invoices. You can change a user's role at any time. If you use SSO (Enterprise plan only), role mapping can be configured directly in your identity provider. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}

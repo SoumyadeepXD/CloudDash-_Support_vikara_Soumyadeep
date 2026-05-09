@@ -1,0 +1,17 @@
+{
+  "id": "KB-010",
+  "title": "How to upgrade or downgrade your plan",
+  "category": "Billing & Pricing",
+  "tags": [
+    "billing",
+    "upgrade",
+    "downgrade"
+  ],
+  "content": "To change your subscription plan, navigate to Billing > Subscriptions. Click 'Change Plan' and select your new tier. Upgrades take effect immediately, and you will be charged a prorated amount for the remainder of the billing cycle. Downgrades take effect at the end of your current billing cycle to ensure you don't lose access to features you've already paid for. If you are downgrading from Pro to Starter, please ensure you have fewer than 50 resources and have exported any data older than 7 days, as it will be permanently deleted upon downgrade. This section provides additional context to ensure comprehensive documentation. The CloudDash platform is built with robustness and scalability in mind. When encountering issues, always verify your configuration settings and ensure that your network allows communication with our endpoints. If you continue to experience difficulties, please consult the troubleshooting steps outlined previously. Our support team is available to assist you with any advanced configurations or unexpected behavior. Remember to keep your agent versions up to date to benefit from the latest features and security patches. Furthermore, monitoring your usage limits can prevent unexpected service interruptions. For detailed API specifications, refer to our developer portal. We are committed to providing reliable service and continuous improvements to our platform. Should you have any feedback or feature requests, do not hesitate to reach out. Thank you for choosing CloudDash as your monitoring solution. We hope this guide has been helpful in resolving your query.",
+  "applies_to": [
+    "Starter",
+    "Pro",
+    "Enterprise"
+  ],
+  "last_updated": "2026-04-15"
+}
