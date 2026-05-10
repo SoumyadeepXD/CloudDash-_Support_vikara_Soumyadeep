@@ -103,3 +103,12 @@ async def health():
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/admin/ingest")
+def run_ingest():
+    import subprocess
+    result = subprocess.run(
+        ["python", "knowledge_base/ingest.py"],
+        capture_output=True, text=True
+    )
+    return {"stdout": result.stdout, "stderr": result.stderr, "returncode": result.returncode}
