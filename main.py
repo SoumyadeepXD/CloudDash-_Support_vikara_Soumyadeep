@@ -40,23 +40,15 @@ async def add_trace_id_header(request: Request, call_next):
 
 @app.on_event("startup")
 async def startup_event():
-    """Auto-ingest KB on every startup — Railway has ephemeral filesystem
-    so chroma_db is wiped on each deploy. Always re-ingest."""
+    """Auto-ingest KB on every startup — Render has ephemeral filesystem.
+    Running in-process to keep memory usage under 512MB."""
     try:
+        from knowledge_base.ingest import ingest
         logger.info("kb_ingestion_started")
-        result = subprocess.run(
-            ["python", "knowledge_base/ingest.py"],
-            capture_output=True,
-            text=True,
-            timeout=120
-        )
-        if result.returncode == 0:
-            logger.info("kb_ingestion_completed", output=result.stdout[-500:])
-        else:
-            logger.error("kb_ingestion_failed", stderr=result.stderr[-500:])
-    except subprocess.TimeoutExpired:
-        logger.error("kb_ingestion_timeout")
+        ingest()
+        logger.info("kb_ingestion_completed")
     except Exception as e:
         logger.error("kb_ingestion_error", error=str(e))
 
     logger.info("application_started")
+

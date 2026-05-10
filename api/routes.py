@@ -106,23 +106,12 @@ async def health():
 
 @router.post("/admin/ingest")
 def trigger_ingest():
-    """Manually trigger KB ingestion. Used for debugging deployment."""
-    import subprocess
+    """Manually trigger KB ingestion. Running in-process for memory efficiency."""
     try:
-        result = subprocess.run(
-            ["python", "knowledge_base/ingest.py"],
-            capture_output=True,
-            text=True,
-            timeout=120
-        )
-        return {
-            "status": "success" if result.returncode == 0 else "failed",
-            "returncode": result.returncode,
-            "stdout": result.stdout[-1000:],
-            "stderr": result.stderr[-500:] if result.stderr else None
-        }
-    except subprocess.TimeoutExpired:
-        return {"status": "timeout", "message": "Ingest took too long"}
+        from knowledge_base.ingest import ingest
+        ingest()
+        return {"status": "success", "message": "KB ingestion completed"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
 
