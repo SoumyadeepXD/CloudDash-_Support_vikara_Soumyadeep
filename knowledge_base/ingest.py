@@ -1,11 +1,13 @@
-import sys
 import os
+import sys
+import json
+import glob
+import structlog
+
+# Make sure we can find all modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
-
-import json
-import glob
 from retrieval.vector_store import VectorStore
 from retrieval.embedder import Embedder
 
@@ -22,44 +24,48 @@ def get_chunks(text: str, chunk_size: int = 400, overlap: int = 80) -> list[str]
     return chunks
 
 def ingest():
+    print("Starting KB ingestion...")
+    
     embedder = Embedder()
     vs = VectorStore()
-
-    # Use absolute path so it works both locally and on Railway
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    files = glob.glob(os.path.join(base_dir, "articles", "*.json"))
-
-    print(f"Found {len(files)} article files")
-
-    if len(files) == 0:
-        print("ERROR: No articles found")
-        sys.exit(1)
-
-    # Always delete and recreate collection for clean ingest
+    
+    # At the start of ingest, always delete and recreate collection
     try:
-        vs.client.delete_collection("clouddash_kb")
+        vs.delete_collection()
         print("Deleted existing collection")
     except Exception:
-        pass
+        pass  # Collection didn't exist, that's fine
 
-    vs.collection = vs.client.create_collection(
-        name="clouddash_kb",
-        metadata={"hnsw:space": "cosine"}
-    )
-    print("Created fresh collection")
-
+    articles_dir = os.path.join(os.path.dirname(__file__), "articles")
+    
+    if not os.path.exists(articles_dir):
+        print(f"ERROR: Articles directory not found at {articles_dir}")
+        sys.exit(1)
+        
+    files = glob.glob(os.path.join(articles_dir, "*.json"))
+    print(f"Found {len(files)} article files")
+    
+    if len(files) == 0:
+        print("ERROR: No article JSON files found")
+        sys.exit(1)
+    
     total_chunks = 0
-
+    
     for file in files:
         with open(file, "r") as f:
             article = json.load(f)
-
+            
+        print(f"Indexing article {article['id']}...")
         chunks = get_chunks(article["content"])
-
-        ids, embs, docs, metas = [], [], [], []
-
+        
+        ids = []
+        embs = []
+        docs = []
+        metas = []
+        
         for i, chunk_text in enumerate(chunks):
             doc_id = f"{article['id']}_chunk_{i}"
+            
             ids.append(doc_id)
             docs.append(chunk_text)
             embs.append(embedder.embed(chunk_text))
@@ -71,12 +77,12 @@ def ingest():
                 "applies_to": ",".join(article.get("applies_to", []))
             })
             total_chunks += 1
-
+            
         if ids:
             vs.add_documents(ids=ids, embeddings=embs, documents=docs, metadatas=metas)
-            print(f"Indexed {article['id']} — {len(ids)} chunks")
-
+            
     print(f"SUCCESS: Indexed {total_chunks} chunks from {len(files)} articles")
 
 if __name__ == "__main__":
     ingest()
+    sys.exit(0)

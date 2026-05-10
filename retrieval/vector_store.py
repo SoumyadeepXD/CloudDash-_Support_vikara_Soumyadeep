@@ -6,21 +6,26 @@ from chromadb.config import Settings
 from retrieval.embedder import Embedder
 
 class VectorStore:
-    def __init__(self, persist_directory: str = "./chroma_db", collection_name: str = "kb_articles"):
-        self.client = chromadb.PersistentClient(
-            path=persist_directory,
-            settings=Settings(anonymized_telemetry=False)
-        )
+    def __init__(self):
+        import chromadb
+        chroma_dir = os.getenv("CHROMA_PERSIST_DIR", "./chroma_db")
+        self.client = chromadb.PersistentClient(path=chroma_dir)
+        self.collection_name = "clouddash_kb"
         try:
-            self.collection = self.client.get_collection(name=collection_name)
+            self.collection = self.client.get_collection(name=self.collection_name)
         except Exception:
+            # Collection doesn't exist yet — will be created during ingest
             self.collection = None
         self.embedder = Embedder()
-        self.collection_name = collection_name
+
         
     def add_documents(self, ids: list[str], embeddings: list[list[float]], documents: list[str], metadatas: list[dict]):
         if self.collection is None:
-            self.collection = self.client.create_collection(name=self.collection_name)
+            self.collection = self.client.create_collection(
+                name=self.collection_name,
+                metadata={"hnsw:space": "cosine"}
+            )
+
         self.collection.add(
             ids=ids,
             embeddings=embeddings,

@@ -1,7 +1,9 @@
+import os
 import streamlit as st
 import requests
 
-import os
+# Read backend URL from environment — set in Streamlit Cloud secrets
+# Falls back to localhost for local development
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 st.set_page_config(page_title="CloudDash Support", layout="wide")

@@ -105,10 +105,24 @@ async def health():
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/admin/ingest")
-def run_ingest():
+def trigger_ingest():
+    """Manually trigger KB ingestion. Used for debugging deployment."""
     import subprocess
-    result = subprocess.run(
-        ["python", "knowledge_base/ingest.py"],
-        capture_output=True, text=True
-    )
-    return {"stdout": result.stdout, "stderr": result.stderr, "returncode": result.returncode}
+    try:
+        result = subprocess.run(
+            ["python", "knowledge_base/ingest.py"],
+            capture_output=True,
+            text=True,
+            timeout=120
+        )
+        return {
+            "status": "success" if result.returncode == 0 else "failed",
+            "returncode": result.returncode,
+            "stdout": result.stdout[-1000:],
+            "stderr": result.stderr[-500:] if result.stderr else None
+        }
+    except subprocess.TimeoutExpired:
+        return {"status": "timeout", "message": "Ingest took too long"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
