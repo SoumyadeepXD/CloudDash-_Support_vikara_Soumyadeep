@@ -1,29 +1,35 @@
-# Architecture Documentation
+# 🏛️ CloudDash System Architecture
 
-## 1. Component Interaction Diagram
+This document provides a comprehensive technical overview of the CloudDash multi-agent support system, detailing the orchestration logic, data flow, and RAG integration.
+
+---
+
+## 1. High-Level System Design
+
+The architecture is built on a **Modular Multi-Agent** pattern, where a central Orchestrator manages conversation state, security guardrails, and agent transitions.
 
 ```mermaid
 flowchart TD
     Client[Web/Mobile Client] -->|REST API| API(FastAPI Backend)
     API --> ORCH[Orchestrator]
     
-    subgraph Guardrails
+    subgraph Security_Layer [Guardrails]
         IN[Input Guard]
         OUT[Output Guard]
     end
     
-    subgraph State Management
-        STORE[(In-Memory Store)]
+    subgraph Persistence [State Management]
+        STORE[(In-Memory State Store)]
     end
     
-    subgraph Agents
+    subgraph Agent_Intelligence [Specialist Agents]
         TRIAGE(Triage Agent)
         TECH(Technical Agent)
         BILL(Billing Agent)
         ESC(Escalation Agent)
     end
     
-    subgraph Handover Protocol
+    subgraph Governance [Handover Protocol]
         HANDOVER[Handover Logic]
         AUDIT[(Audit Log JSONL)]
     end
@@ -50,14 +56,19 @@ flowchart TD
     OUT --> API
 ```
 
-## 2. Handover Protocol Sequence Diagram
+---
 
+## 2. Conversation & Handover Protocol
+
+CloudDash utilizes a formal handover protocol to ensure context is preserved when a user is moved between specialists.
+
+### Handover Sequence
 ```mermaid
 sequenceDiagram
     participant User
     participant Orchestrator
     participant SourceAgent
-    participant Handover
+    participant HandoverEngine
     participant TargetAgent
     participant AuditLog
 
@@ -67,75 +78,71 @@ sequenceDiagram
     SourceAgent-->>Orchestrator: AgentResponse(requires_handover=True)
     Orchestrator->>SourceAgent: Generate Context Summary (LLM)
     SourceAgent-->>Orchestrator: Summary
-    Orchestrator->>Handover: create_handover(Source, Target, Summary)
-    Handover-->>Orchestrator: HandoverPayload
+    Orchestrator->>HandoverEngine: create_handover(Source, Target, Summary)
+    HandoverEngine-->>Orchestrator: HandoverPayload
     Orchestrator->>AuditLog: log_handover(HandoverPayload)
     Orchestrator->>TargetAgent: process()
     TargetAgent-->>Orchestrator: Final AgentResponse
     Orchestrator-->>User: Response + Notification
 ```
 
-## 3. RAG Pipeline Diagram
+---
+
+## 3. RAG Pipeline & Knowledge Ingestion
+
+Our Retrieval-Augmented Generation pipeline ensures that agents provide grounded responses based on verified technical documentation.
+
+| Phase | Description |
+| :--- | :--- |
+| **Ingestion** | Sliding-window chunking of JSON articles -> `all-MiniLM-L6-v2` embeddings -> ChromaDB. |
+| **Retrieval** | LLM-based query rewriting -> Semantic search -> Cross-encoder re-ranking. |
+| **Augmentation** | Top-K chunks are injected into the agent's system prompt as a "Grounding Context". |
 
 ```mermaid
 flowchart LR
-    subgraph Ingestion
-        Docs[KB JSON Articles] --> Chunk[Sliding Window Chunking]
-        Chunk --> Embed1[Sentence Transformer]
+    subgraph Ingestion_Flow
+        Docs[KB Articles] --> Chunk[Sliding Window]
+        Chunk --> Embed1[Embedder]
         Embed1 --> VectorDB[(ChromaDB)]
     end
     
-    subgraph Retrieval
-        Query[User Query] --> Rewrite[LLM Query Rewriter]
-        Rewrite --> Embed2[Sentence Transformer]
+    subgraph Retrieval_Flow
+        Query[User Query] --> Rewrite[Query Rewriter]
+        Rewrite --> Embed2[Embedder]
         Embed2 --> VectorDB
-        VectorDB -->|Top K * 2| Rerank[Cross-Encoder Reranking]
-        Rerank -->|Threshold Filter| Final[Retrieved Chunks]
+        VectorDB -->|Candidates| Rerank[Re-ranking]
+        Rerank -->|Filtered| Final[Context]
         Final --> Agent[Specialist Agent]
     end
 ```
 
-## 4. Data Flow for Test Scenarios
+---
 
-- **Scenario 1 (Technical routing):**
-  - Input: Alert integration failing.
-  - Triage extracts entities (Plan: Pro, Issue: integration). Routes to Technical.
-  - Technical retrieves KB-005 and KB-007, grounds response, citations appended.
-  
-- **Scenario 2 (Technical to Billing):**
-  - Input: Upgrade to Enterprise, check SSO issue.
-  - Triage routes to Technical.
-  - Technical processes SSO (KB-009). Detects "upgrade" (billing intent) and flags `suggested_next_agent = "billing"`.
-  - Orchestrator catches flag, executes handover to Billing. Billing answers plan upgrade.
+## 4. Operational Guardrails
 
-- **Scenario 3 (Auto-escalation):**
-  - Input: Charged twice, immediate refund, manager.
-  - Triage routes to Billing.
-  - Billing detects "manager" keyword and refund request over safe thresholds.
-  - Billing returns `requires_handover = True` (target: Escalation).
-  - Escalation builds Operator payload.
+| Guardrail | Function | Implementation |
+| :--- | :--- | :--- |
+| **Input Guard** | Detects PII, injection attempts, and off-topic requests. | Regex + LLM Classifier |
+| **Output Guard** | Ensures responses are professional, grounded, and free of sensitive internal data. | LLM Fact-Checker |
+| **State Consistency** | Prevents agent loops and ensures a deterministic conversation path. | Finite State Machine |
 
-- **Scenario 4 (KB Gap / Hallucination prevention):**
-  - Input: Datadog integration.
-  - Triage routes to Technical.
-  - Technical retrieves KB chunks but finds no mention of Datadog.
-  - Output Guard checks the response against the KB. Technical agent informs user it's unsupported and escalates.
+---
 
-## 5. Production Evolution Plan
+## 5. Live Deployment Status
 
-To migrate this prototype to a fully scalable production environment:
-1. **Multi-tenancy and Auth**: Implement OAuth2/OIDC. Embed `tenant_id` into all ChromaDB metadata. 
-2. **State Persistence**: Replace the Python in-memory `state_store` dictionary with Redis.
-3. **Queueing**: For high throughput, decouple the Orchestrator from the REST API using Celery or Kafka so long-running LLM inferences don't block web workers.
-4. **Vector Database**: Upgrade ChromaDB to a managed cluster (e.g. Pinecone, Milvus) for horizontal scalability.
-5. **Rate Limiting**: Enforce token-bucket rate limits per user API endpoint using Redis.
+The system is currently operational in a distributed production environment:
 
-## 6. Live Deployment
+- **Frontend Application**: [Streamlit Portal](https://clouddash-supportvikarasoumyadeep.streamlit.app/)
+- **API Infrastructure**: [Render Backend Service](https://clouddash-backend.onrender.com/)
+- **Monitoring**: [Health Endpoint](https://clouddash-backend.onrender.com/health)
 
-The system is currently deployed and operational at the following endpoints:
+---
 
-- **Frontend Application (Streamlit)**: [https://clouddash-supportvikarasoumyadeep.streamlit.app/](https://clouddash-supportvikarasoumyadeep.streamlit.app/)
-  - Hosts the user interface and communicates with the backend via REST.
-- **Backend API (FastAPI)**: [https://clouddash-backend.onrender.com/](https://clouddash-backend.onrender.com/)
-  - **Health Check**: [https://clouddash-backend.onrender.com/health](https://clouddash-backend.onrender.com/health)
-  - Handles multi-agent logic, RAG retrieval, and state management on Render infrastructure.
+## 6. Production Evolution Roadmap
+
+To transition this architecture to a high-availability enterprise environment, the following migrations are planned:
+
+1. **State Management**: Migration from local `state_store` to **Redis Cluster**.
+2. **Authentication**: Integration of **Auth0/Okta** for multi-tenant isolation.
+3. **Async Processing**: Decoupling the Orchestrator via **Celery/Redis** to handle long-running LLM tasks.
+4. **Vector Scaling**: Transitioning ChromaDB to **managed Pinecone** for horizontal scalability.
