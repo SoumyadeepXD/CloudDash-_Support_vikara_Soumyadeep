@@ -2,22 +2,21 @@
 
 A production-grade multi-agent customer support platform.
 
-## 🚀 Deployment (Free Alternatives)
+## 🚀 Live Deployment
 
-### Backend (FastAPI)
-You can deploy the backend for free on **Render** using the provided `render.yaml`:
-1. Connect your GitHub to [Render](https://render.com/).
-2. Create a **New Blueprint Instance**.
-3. Set your `GEMINI_API_KEY` in the Render environment variables.
-4. Copy the Service URL.
+- **Frontend UI**: [https://clouddash-supportvikarasoumyadeep.streamlit.app/](https://clouddash-supportvikarasoumyadeep.streamlit.app/)
+- **Backend API**: [https://clouddash-backend.onrender.com/health](https://clouddash-backend.onrender.com/health)
 
-### Frontend (Streamlit)
-Deploy on **Streamlit Community Cloud**:
-1. Connect your GitHub repo.
-2. In **Settings > Secrets**, add:
-   ```toml
-   BACKEND_URL = "https://your-backend-url.onrender.com"
-   ```
+### Deployment Details
+
+#### Backend (FastAPI)
+The backend is deployed on **Render** using the provided `render.yaml`. It handles the multi-agent orchestration, RAG retrieval, and conversation state.
+
+#### Frontend (Streamlit)
+The frontend is deployed on **Streamlit Community Cloud**, configured to communicate with the Render backend via:
+```toml
+BACKEND_URL = "https://clouddash-backend.onrender.com"
+```
 
 A production-quality prototype of a multi-agent customer support system for a fictional SaaS product called **CloudDash**. It utilizes Google Gemini (with an Ollama fallback) to drive conversational workflows, extracting entities, classifying intent, and querying a RAG pipeline backed by a VectorStore (ChromaDB) for high-quality, grounded responses.
 

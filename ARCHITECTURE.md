@@ -129,3 +129,13 @@ To migrate this prototype to a fully scalable production environment:
 3. **Queueing**: For high throughput, decouple the Orchestrator from the REST API using Celery or Kafka so long-running LLM inferences don't block web workers.
 4. **Vector Database**: Upgrade ChromaDB to a managed cluster (e.g. Pinecone, Milvus) for horizontal scalability.
 5. **Rate Limiting**: Enforce token-bucket rate limits per user API endpoint using Redis.
+
+## 6. Live Deployment
+
+The system is currently deployed and operational at the following endpoints:
+
+- **Frontend Application (Streamlit)**: [https://clouddash-supportvikarasoumyadeep.streamlit.app/](https://clouddash-supportvikarasoumyadeep.streamlit.app/)
+  - Hosts the user interface and communicates with the backend via REST.
+- **Backend API (FastAPI)**: [https://clouddash-backend.onrender.com/](https://clouddash-backend.onrender.com/)
+  - **Health Check**: [https://clouddash-backend.onrender.com/health](https://clouddash-backend.onrender.com/health)
+  - Handles multi-agent logic, RAG retrieval, and state management on Render infrastructure.

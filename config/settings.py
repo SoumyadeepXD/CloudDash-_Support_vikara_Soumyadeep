@@ -4,7 +4,7 @@ import os
 
 class Settings(BaseSettings):
     llm_provider: str = "ollama"
-    gemini_api_key: str = "YOUR GEMINI API"
+    gemini_api_key: str = "[ENCRYPTION_KEY]" #add your key here
     gemini_model: str = "gemini-2.0-flash"
     ollama_model: str = "llama3.2"
     ollama_base_url: str = "http://localhost:11434"
