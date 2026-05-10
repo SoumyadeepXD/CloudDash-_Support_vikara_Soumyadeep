@@ -1,4 +1,23 @@
-# CloudDash Support System
+# CloudDash — Support System
+
+A production-grade multi-agent customer support platform.
+
+## 🚀 Deployment (Free Alternatives)
+
+### Backend (FastAPI)
+You can deploy the backend for free on **Render** using the provided `render.yaml`:
+1. Connect your GitHub to [Render](https://render.com/).
+2. Create a **New Blueprint Instance**.
+3. Set your `GEMINI_API_KEY` in the Render environment variables.
+4. Copy the Service URL.
+
+### Frontend (Streamlit)
+Deploy on **Streamlit Community Cloud**:
+1. Connect your GitHub repo.
+2. In **Settings > Secrets**, add:
+   ```toml
+   BACKEND_URL = "https://your-backend-url.onrender.com"
+   ```
 
 A production-quality prototype of a multi-agent customer support system for a fictional SaaS product called **CloudDash**. It utilizes Google Gemini (with an Ollama fallback) to drive conversational workflows, extracting entities, classifying intent, and querying a RAG pipeline backed by a VectorStore (ChromaDB) for high-quality, grounded responses.
 
